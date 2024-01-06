@@ -25,11 +25,15 @@ browser.runtime.onMessage.addListener((message, sender) => {
 
 browser.runtime.onMessage.addListener((message, sender) => {
     if (message.req === 'getApplicationKey') {
-        return browser.tabs.query({currentWindow: true, active: true}).then(([tab]) => {
-            let eTLD_plus_1 = publicSuffixList.getDomain(new URL(tab.url).hostname);
-            return ({res: eTLD_plus_1});
-        }).then((eTLD_plus_1) => {
+        return browser.storage.local.get('eTLD').then((result) => {
+            return argon2.hash({ pass: result.eTLD, salt: 'mySuperSuperSecureKey', hashLen:8 });
+        }).then(hashed => {
+            let applicationKey = hashed.hashHex.slice(0, 4)
+            +'-'+hashed.hashHex.slice(4, 8)
+            +'-'+hashed.hashHex.slice(8, 12)
+            +'-'+hashed.hashHex.slice(12, 16);
 
-        });
+            return ({res: applicationKey});
+        }).catch(console.error);
     }
 });
