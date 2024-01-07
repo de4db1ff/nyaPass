@@ -12,7 +12,8 @@
     ],
 
     "background": {
-        "page": "background.html"
+        "scripts": ["background.js"],
+        "type": "module"
     },
 
 

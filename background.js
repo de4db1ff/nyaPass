@@ -1,4 +1,5 @@
 import publicSuffixList from './libs/publicsuffixlist.js';
+import punycode from './libs/punycode.es6.js';
 
 await publicSuffixList.enableWASM();
 
