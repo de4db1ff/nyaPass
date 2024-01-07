@@ -1,7 +1,7 @@
 # What is this for?
 A Password Manager, without the need to sync or store states for application passwords.
 
-Application passwords are derived from the master key locally, in a consistent manner.
+Application passwords are derived from the master key locally, in a consistent and reproducible manner.
 
 # How does it work?
 $ApplicationPassword = KDF(Origin + Secret Master Key)$
