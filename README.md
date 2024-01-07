@@ -4,7 +4,7 @@ A Password Manager, without the need to sync or store states for application pas
 Application passwords are derived from the master key locally, in a consistent and reproducible manner.
 
 # How does it work?
-$ApplicationPassword = KDF(Origin + Secret Master Key)$
+$ApplicationPassword = KDF(Origin, Your Super Super Secret Password Which you reused across 100 websites)$
 
 Where KDF can be anything as long as it is one-way and deterministic.
 
