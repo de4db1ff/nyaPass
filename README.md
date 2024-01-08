@@ -1,6 +1,8 @@
 # What is this for?
 A Password Manager, without the need to sync or store password states, and without requiring a internet connection.
 
+And, perhaps the most importantly, without a master key.
+
 Unique Application Passwords are derived from your Passkey locally, in a consistent and reproducible manner.
 
 Your Passkey now becomes a unique set of passwords just for you and for every single website on earth, as long as they have a password input box.
