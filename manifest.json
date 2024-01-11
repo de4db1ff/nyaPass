@@ -1,15 +1,15 @@
 {
     "manifest_version": 3,
     "name": "nyaPass",
-    "version": "0.5.0",
-    "description": "Your plain old password, in a better way",
+    "version": "0.6.0",
+    "description": "Your passwordless passwords",
     "homepage_url": "https://github.com/de4db1ff/nyaPass",
 
     "permissions": [
-        "activeTab",
-        "clipboardWrite",
-        "storage"
+        "activeTab"
     ],
+
+    "host_permissions": [ "*://nyaPass.invalid/*" ],
 
     "background": {
         "service_worker": "background.js",
@@ -18,7 +18,7 @@
 
 
     "action": {
-        "default_title": "Get password for this site",
+        "default_title": "Get password for this tab",
         "default_popup": "popup.html"
     },
 

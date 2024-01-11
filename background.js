@@ -18,7 +18,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
          chrome.tabs.query({currentWindow: true, active: true})
         .then(([tab]) => {
             let eTLDp1 = publicSuffixList.getDomain(new URL(tab.url).hostname);
-            chrome.storage.local.set({eTLDp1: eTLDp1});
             sendResponse({res: eTLDp1});
         }, console.error);
     }
