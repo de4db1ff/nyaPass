@@ -1,45 +1,64 @@
 # What is this for?
-A Password Manager, without the need to sync or store password states, and without requiring a internet connection.
+A Password Manager, without the need to sync or store states for passwords. 
 
-And, perhaps the most importantly, without a master key.
+It even works without Internet connection in case you live in North Korea.
+
+And, perhaps more importantly, without a master key.
 
 Unique Application Passwords are derived from your Passkey locally, in a consistent and reproducible manner.
 
-Your Passkey now becomes a unique set of passwords just for you and for every single website on earth, as long as they have a password input box.
+Your Passkey now becomes a unique set of passwords just for you and for any website on earth, as long as they have a password input box.
 
 # How does it work?
 $Application\ Password = KDF_c(Origin)$
 
 As simple as that.
 
-Where KDF can be anything as long as it is one-way and deterministic.
+Where KDF can be anything provided that it is one-way and deterministic.
 
-C is a secret Credential from which the individual application passwords will derive.
+C is the secret Credential preventing some random guys from forging your invaluable password.
 
-We used argon2 as the KDF for the earliest prototype.
+We use the prf extension from WebAuthn Standard as our KDF, the Credential is generated and hold by the authenticator - your passkey,
+
+you don't need to remember anything, anymore.
+
+*: Actually instead of the origin we use eTLD+1 for the sake of compatibility.
+
+# Security Considerations
+
+## Cross-origin Iframes
+## Hash Length Extension
+
+# Design Decisions
+We considered using argon2 as the KDF in the earliest prototype.
 
 And C is a secret masterkey the user set upon installation.
 
-Until I figured out we can do it even better!
+Until I realized that we can do it even better!
 
-We now use the PRF extension from WebAuthn as our KDF, the Credential is generated and hold by the authenticator - your passkey,
+To use a FIDO authenticator as our Secret Master Key.
 
-you don't even need to remember or input the Credential yourself, as long as you hold a supported passkey.
 
-Your passkey now becomes a unique set of passwords for every single website on earth, whether they natively support WebAuthn or not, as long as they have a password input box.
+~~Unfortunately, this seems not feasible in its current status.~~ It works thanks to the prf extension described below.
 
-*: Actually we use eTLD+1 instead of Origin for the sake of compatibility.
+We need something in the WebAuthn standard that can produce a consistent signature using the same secret in the authenticator for a message chosen by us.
+
+[WebAuthn PRF](https://github.com/w3c/webauthn/wiki/Explainer:-PRF-extension)
+
+
+# Known Limitations
+
+## Limited Cross Browser Support
+
+Requiring the same extension ID
+
+For those not tied to browsers with the same rendering engine, it serves more as a proof of concept instead of being something that is practical for everyday use.
+
+## Password Rotation
+
+## Supported Authenticators
+Only CTAP2 Authenticators implementing the HMAC-Secret extension (the physical and external ones, e.g. Yubikey) are currently supported.
+Platform Authenticators (those embedded in your laptops/phones) are not.
 
 # Abbreviation
 "nya" stands for "not yet another"
-
-# Ideas which may or may not be implemented in the future
-Use WebAuthn private key as our Secret Master Key.
-
-With this we could effectively turn a passkey into traditional passwords for individual websites which do not support passkey natively.
-
-Unfortunately, this seems not feasible in its current status.
-
-We need something in the WebAuthn standards that can produce a consistent signature using its private key for a given message chosen by us.
-
-For example [WebAuthn PRF](https://github.com/w3c/webauthn/wiki/Explainer:-PRF-extension)

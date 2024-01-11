@@ -1,18 +1,18 @@
 {
     "manifest_version": 3,
     "name": "nyaPass",
-    "version": "0.3.0",
+    "version": "0.5.0",
     "description": "Your plain old password, in a better way",
     "homepage_url": "https://github.com/de4db1ff/nyaPass",
 
     "permissions": [
-        "tabs",
+        "activeTab",
         "clipboardWrite",
         "storage"
     ],
 
     "background": {
-        "scripts": ["background.js"],
+        "service_worker": "background.js",
         "type": "module"
     },
 
