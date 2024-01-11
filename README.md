@@ -1,5 +1,5 @@
 # What is this for?
-A minimalist Password Manager, without the complexity to sync and store states for passwords. 
+A minimalist Password Manager eliminates the complexity of syncing and storing password states.
 
 It works without Internet connection in case you live in North Korea.
 
@@ -7,7 +7,7 @@ And, perhaps more importantly, without a master key.
 
 Unique Application Passwords are derived from your Passkey locally, in a consistent and reproducible manner.
 
-Your Passkey now becomes a unique set of passwords just for you and for any website on earth, as long as they have a password input box.
+Your Passkey now becomes a unique set of passwords for any website with a password input box, regardless of whether they natively support WebAuthn.
 
 # How does this thing work?
 $\text{Password} = KDF(\text{Origin}, \text{Secret})$
@@ -18,11 +18,11 @@ Where KDF can be anything provided that it is one-way and deterministic.
 
 The secret prevents some random guys from forging your invaluable passwords.
 
-We use the prf extension from the WebAuthn Standard as our KDF, which generates a random secret is and binds it to a credential in the authenticator - your passkey.
+We utilize the prf extension from the WebAuthn Standard as our KDF. This generates a random secret and binds it to a credential in the authenticator - your passkey. 
 
-You are free to forget all your credentials from now on, once and for all.
+From now on, you are free to forget all your credentials once and for all.
 
-*: Actually instead of the origin we use eTLD+1 for the sake of compatibility.
+Note: For compatibility reasons, we use eTLD+1 instead of the origin.
 
 # Security Considerations
 
@@ -33,27 +33,36 @@ TBD
 
 # Known Limitations
 
-## Limited Cross Browser Support
+## Limited Cross-Browser Support
 
 Requiring the same relying party ID
-RpId was set to the origin for both normal web apps and webextensions, we have to keep the same extension-id (which implies the origin for the extension) in order to have the same credential-bound PRF.
-If that's the case, it would be impossible for this extension to use the same PRF across Browser Engines(the extension id would change, so do the rpId used to access our PRF).
-fortunately this rule has been loosen for Chrome 122+, see details below.
-Firefox and Safari do not support this though, and 
+The same Relying Party ID is required, which was set to the origin for both standard web apps and web extensions. 
 
+To maintain the same credential-bound Pseudorandom Function (PRF), we need to keep the same extension ID, which implies the origin and RpId for the extension.
+
+However, this makes it impossible for the extension to use the same PRF across different Browser Engines, as the extension ID (and consequently the RpId used to access our PRF) would change.
+
+Fortunately, this rule has been relaxed for Chrome 122+. More details can be found below.
+
+Please note that Firefox and Safari currently do not support this feature.
 
 ## Password Rotation
 
-## Supported Authenticators
-The Current WebAuthn PRF implementations heavily depend on the CTAP2 HMAC-Secret extension.
-Only CTAP2 Authenticators implementing the HMAC-Secret extension (the physical and external ones, e.g. Yubikey) are currently supported.
-Platform Authenticators (those embedded in your laptops/phones) are not though.
-
-That said, platform authenticators without CTAP2 might support this in the future as per [the standard](https://w3c.github.io/webauthn/#prf-extension)
 
 ## Supported Browsers
-[Chrome 122+ Only](https://chromiumdash.appspot.com/commit/cfea6b18ede2a8fe0d7ea32e6bba967a7f2de6f8)
-The support for other browsers in the future depends on the availability of this feature.
+Chrome 122+ Only
+
+The extension of support to other browsers in the future will depend on the availability of [something like this](https://chromiumdash.appspot.com/commit/cfea6b18ede2a8fe0d7ea32e6bba967a7f2de6f8).
+
+## Supported Authenticators 
+The Current WebAuthn PRF implementations heavily rely on the CTAP2 HMAC-Secret extension.
+
+At present, only CTAP2 Authenticators that implement the HMAC-Secret extension are supported. These are typically physical and external devices, such as Yubikey.
+
+However, Platform Authenticators, which are embedded in your laptops or phones, are not currently supported.
+
+Platform authenticators without CTAP2 might support this feature in the future, as per [the standard](https://w3c.github.io/webauthn/#prf-extension)
+
 
 # Abbreviation
 "nya" stands for "not yet another"
