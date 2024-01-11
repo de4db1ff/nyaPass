@@ -1,5 +1,5 @@
 
-chrome.runtime.sendMessage({req: "geteTLD"}, (response) => {
+chrome.runtime.sendMessage({req: "geteTLDp1"}, (response) => {
     if(response.res){
         document.getElementById("eTLD").textContent = response.res;
     }else{
@@ -23,13 +23,14 @@ document.getElementById("password").addEventListener("click", (e) => {
                     residentKey: "required",
                 },
                 extensions: {prf: {eval: {first: new TextEncoder().encode(document.getElementById("eTLD").textContent)}}},
-            },
-            rp:{
-                 id:"nya.pass",
-                 name:"nyaPass"
             }
-        }).then(cliOut => {
-            let prfRes = new Uint8Array(cliOut.getClientExtensionResults().prf.results.first);
+        })
+        .then(authenticatorRes => {
+            let clientData = JSON.parse(String.fromCharCode(...new Uint8Array(authenticatorRes.response.clientDataJSON)));
+            if(clientData.challenge !== challenge){
+                throw new Error("Challenge mismatch.");
+            }
+            let prfRes = new Uint8Array(authenticatorRes.getClientExtensionResults().prf.results.first);
             let applicationKey = btoa(String.fromCharCode(...prfRes));
             document.getElementById("password").textContent = applicationKey;
         })

@@ -1,5 +1,5 @@
 # What is this for?
-A Password Manager, without the need to sync or store states for passwords. 
+A minimalist Password Manager, without the complexity to sync or store states for passwords. 
 
 It even works without Internet connection in case you live in North Korea.
 
@@ -9,26 +9,27 @@ Unique Application Passwords are derived from your Passkey locally, in a consist
 
 Your Passkey now becomes a unique set of passwords just for you and for any website on earth, as long as they have a password input box.
 
-# How does it work?
+# How does this thing work?
 $\text{Password} = KDF(\text{Origin}, \text{Secret})$
 
 As simple as that.
 
 Where KDF can be anything provided that it is one-way and deterministic.
 
-The secret prevents some random guys from forging your invaluable password.
+The secret prevents some random guys from forging your invaluable passwords.
 
 We use the prf extension from the WebAuthn Standard as the KDF, the random secret is generated and bound to the authenticator - your passkey.
 
-You are free to forget your credentials, once and for all.
+You are free to forget all your credentials from now on, once and for all.
 
 *: Actually instead of the origin we use eTLD+1 for the sake of compatibility.
 
 # Security Considerations
 
 ## Cross-origin Iframes
+TBD
 ## Hash Length Extension
-
+TBD
 
 # Known Limitations
 
@@ -40,7 +41,7 @@ Requiring the same relying party ID
 ## Password Rotation
 
 ## Supported Authenticators
-The Current WebAuthn PRF implementations heavily depends on the CTAP2 HMAC-Secret extension.
+The Current WebAuthn PRF implementations heavily depend on the CTAP2 HMAC-Secret extension.
 Only CTAP2 Authenticators implementing the HMAC-Secret extension (the physical and external ones, e.g. Yubikey) are currently supported.
 Platform Authenticators (those embedded in your laptops/phones) are not.
 

@@ -14,7 +14,7 @@ fetch('./data/public_suffix_list.dat')
     });
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    if (message.req === 'geteTLD') {
+    if (message.req === 'geteTLDp1') {
          chrome.tabs.query({currentWindow: true, active: true})
         .then(([tab]) => {
             let eTLDp1 = publicSuffixList.getDomain(new URL(tab.url).hostname);
