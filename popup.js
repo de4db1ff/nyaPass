@@ -1,9 +1,9 @@
 
 chrome.runtime.sendMessage({req: "geteTLDp1"}, (response) => {
-    if(response.res){
+    if(response.res !== ''){
         document.getElementById("eTLD").textContent = response.res;
     }else{
-        document.getElementById("password").textContent = "Cannot get eTLD for current tab.";
+        document.getElementById("password").textContent = "Cannot get eTLD for the current tab.";
         document.getElementById("password").disabled = true;
     }
 });
@@ -18,21 +18,24 @@ document.getElementById("password").addEventListener("click", (e) => {
                 timeout: 60000,
                 rpId: "nya.Pass",
                 challenge: challenge,
-                authenticatorSelection: {
-                    authenticatorAttachment: "cross-platform",
-                    residentKey: "required",
-                },
                 extensions: {prf: {eval: {first: new TextEncoder().encode(document.getElementById("eTLD").textContent)}}},
             }
         })
         .then(authenticatorRes => {
             let clientData = JSON.parse(String.fromCharCode(...new Uint8Array(authenticatorRes.response.clientDataJSON)));
-            if(clientData.challenge !== challenge){
+            
+            //quick hack for base64/base64url conversion
+            let oriChallenge = btoa(String.fromCharCode(...new Uint8Array(challenge))).replace(/=/g, '');
+            let rcvChallenge = clientData.challenge.replace(/-/g, '+').replace(/_/g, '/');
+            if(oriChallenge !== rcvChallenge){
                 throw new Error("Challenge mismatch.");
             }
+            
             let prfRes = new Uint8Array(authenticatorRes.getClientExtensionResults().prf.results.first);
             let applicationKey = btoa(String.fromCharCode(...prfRes));
             document.getElementById("password").textContent = applicationKey;
+            document.getElementById("password").removeAttribute("aria-busy");
+
         })
         .catch(console.error);
     }
