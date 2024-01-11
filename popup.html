@@ -2,17 +2,18 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="popup.css">
+    <link rel="stylesheet" href="styles/popup.css">
+    <link rel="stylesheet" href="styles/pico.min.css">
 </head>
 <body>
-    <div id="prompt">Your password for 
-        <span id="eTLD"></span> 
-        is 
-    </div>
-    <div id="password">
-        Loading...
-    </div>
-    <script src="./libs/browser-polyfill.js"></script>
+    <main class="container">
+        <button id="password" class="contrast outline">
+            Get the password for <span id="eTLD" data-tooltip="Please be aware of cross-origin iframes."></span> 
+            from your passkey.
+        </button>
+        
+    </main>
+
     <script defer src="popup.js"></script>
 </body>
 </html>

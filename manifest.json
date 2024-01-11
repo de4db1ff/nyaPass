@@ -9,7 +9,7 @@
         "activeTab"
     ],
 
-    "host_permissions": [ "*://nyaPass.invalid/*" ],
+    "host_permissions": [ "*://nya.Pass/*" ],
 
     "background": {
         "service_worker": "background.js",
@@ -24,5 +24,14 @@
 
     "content_security_policy": {
         "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; default-src 'self'"
+    },
+
+    "commands": {
+        "_execute_action": {
+            "suggested_key": {
+                "default": "Alt+C",
+                "mac": "MacCtrl+Command+C"
+            }
+        }
     }
 }
