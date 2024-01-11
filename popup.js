@@ -33,8 +33,10 @@ document.getElementById("password").addEventListener("click", (e) => {
             
             let prfRes = new Uint8Array(authenticatorRes.getClientExtensionResults().prf.results.first);
             let applicationKey = btoa(String.fromCharCode(...prfRes));
-            document.getElementById("password").textContent = applicationKey;
+            document.getElementById("password").parentElement.textContent = applicationKey;
             document.getElementById("password").removeAttribute("aria-busy");
+            document.getElementById("password").disabled = true;
+
 
         })
         .catch(console.error);
