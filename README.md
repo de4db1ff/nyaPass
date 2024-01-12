@@ -64,5 +64,5 @@ However, Platform Authenticators, which are embedded in your laptops or phones, 
 Platform authenticators without CTAP2 might support this feature in the future, as per [the standard](https://w3c.github.io/webauthn/#prf-extension)
 
 
-# Abbreviation
+# Acronym
 "nya" stands for "not yet another"
