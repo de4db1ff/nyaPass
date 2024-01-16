@@ -34,12 +34,7 @@ document.getElementById("password").addEventListener("click", (e) => {
             let prfRes = new Uint8Array(authenticatorRes.getClientExtensionResults().prf.results.first);
 
             // get a lossy base58-like output without introducing a new dependency
-            let applicationKey = btoa(String.fromCharCode(...prfRes))
-            .replace(/=/g, '')
-            .replace(/\+/g, '')
-            .replace(/o/gi, '')
-            .replace(/I/g, '')
-            .replace(/l/g, '');
+            let applicationKey = btoa(String.fromCharCode(...prfRes)).replace(/[=\+oOIl]/g, '');
 
             applicationKey = applicationKey.slice(0, 4)
             +'-' + applicationKey.slice(4, 8)
