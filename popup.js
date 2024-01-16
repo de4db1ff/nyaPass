@@ -32,7 +32,20 @@ document.getElementById("password").addEventListener("click", (e) => {
             }
             
             let prfRes = new Uint8Array(authenticatorRes.getClientExtensionResults().prf.results.first);
-            let applicationKey = btoa(String.fromCharCode(...prfRes));
+
+            // get a lossy base58-like output without introducing a new dependency
+            let applicationKey = btoa(String.fromCharCode(...prfRes))
+            .replace(/=/g, '')
+            .replace(/\+/g, '')
+            .replace(/o/gi, '')
+            .replace(/I/g, '')
+            .replace(/l/g, '');
+
+            applicationKey = applicationKey.slice(0, 4)
+            +'-' + applicationKey.slice(4, 8)
+            +'-' + applicationKey.slice(8, 12)
+            +'-' + applicationKey.slice(12, 16); 
+
             document.getElementById("password").parentElement.textContent = applicationKey;
             document.getElementById("password").removeAttribute("aria-busy");
             document.getElementById("password").disabled = true;
