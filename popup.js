@@ -15,9 +15,10 @@ document.getElementById("password").addEventListener("click", (e) => {
         let challenge = window.crypto.getRandomValues(new Uint8Array(16)).buffer;
         navigator.credentials.get({
             publicKey: {
+                challenge: challenge,
                 timeout: 60000,
                 rpId: "nya.Pass",
-                challenge: challenge,
+                hints: "security-key",
                 extensions: {prf: {eval: {first: new TextEncoder().encode(document.getElementById("eTLD").textContent)}}},
             }
         })
@@ -33,7 +34,7 @@ document.getElementById("password").addEventListener("click", (e) => {
             
             let prfRes = new Uint8Array(authenticatorRes.getClientExtensionResults().prf.results.first);
 
-            // get a lossy base58-like output without introducing a new dependency
+            // lossy base58-like output without introducing a new dependency
             let applicationKey = btoa(String.fromCharCode(...prfRes)).replace(/[=\+oOIl]/g, '');
 
             applicationKey = applicationKey.slice(0, 4)

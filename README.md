@@ -1,39 +1,38 @@
 # What is this for?
-A minimalist Password Manager eliminates the complexity of syncing and storing password states.
+A minimalist Password Manager which eliminates the complexity of syncing and storing password states.
 
 It works without Internet connection in case you live in North Korea.
 
 And, perhaps more importantly, without a master key.
 
-Unique Application Passwords are derived from your Passkey locally, in a consistent and reproducible manner.
+Unique Application Passwords are derived from your Passkey locally, in a consistent and reproducible way.
 
 Your Passkey now becomes a unique set of passwords for any website with a password input box, regardless of whether they natively support WebAuthn.
 
 # How does this thing work?
-$\text{Password} = KDF(\text{Origin}, \text{Secret})$
+$Password = KDF(Origin)$
 
 As simple as that.
 
 Where KDF can be anything provided that it is one-way and deterministic.
 
-The secret prevents some random guys from forging your invaluable passwords.
 
 We utilize the prf extension from the WebAuthn Standard as our KDF. This generates a random secret and binds it to a credential in the authenticator - your passkey. 
 
 From now on, you are free to forget all your credentials once and for all.
 
-Note: For compatibility reasons, we use eTLD+1 instead of the origin.
+Note: For compatibility reasons, we use eTLD+1s instead of origins.
 
 # Security Considerations
 
 ## Cross-origin Iframes
 TBD
 ## Hash Length Extension
-TBD
+According to [CTAP](https://fidoalliance.org/specs/fido-v2.2-rd-20230321/fido-client-to-authenticator-protocol-v2.2-rd-20230321.html#sctn-hmac-secret-extension), the authenticator employs SHA256-HMAC internally. Although SHA256 itself is vulnerable to Hash Length Extension attack, that does not apply to SHA256-HMAC.
 
 # Known Limitations
 
-## Limited Cross-Browser Support
+## Cross-Browser Support
 
 Requiring the same relying party ID
 The same Relying Party ID is required, which was set to the origin for both standard web apps and web extensions. 
