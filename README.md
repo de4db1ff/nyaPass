@@ -1,13 +1,14 @@
-# What is this for?
-A minimalist Password Manager which eliminates the complexity of syncing and storing password states.
+A minimalist Password Manager which avoids the complexity of syncing and storing password states.
 
-It works without Internet connection in case you live in North Korea.
+It could work without an Internet connection in case you live in North Korea.
 
-And, perhaps more importantly, without a master key.
+And, perhaps more importantly, without a master password/phrase/knowledge/etc. of any kind that you have to remember to prove your identity.
 
 Unique Application Passwords are derived from your Passkey locally, in a consistent and reproducible way.
 
-Your Passkey now becomes a unique set of passwords for any website with a password input box, regardless of whether they natively support WebAuthn.
+It turns your FIDO key into a unique set of passwords for any website/application, regardless of whether they natively support WebAuthn.
+
+Given the simplicity of this project and the fact that I'm not a frontend developer, I'm not using a proper build system/frontend framework, this repository is the final distribution per se and could be installed without building it first.
 
 # How does this thing work?
 $Password = KDF(Origin)$
@@ -19,9 +20,7 @@ Where KDF can be anything provided that it is one-way and deterministic.
 
 We utilize the prf extension from the WebAuthn Standard as our KDF. This generates a random secret and binds it to a credential in the authenticator - your passkey. 
 
-From now on, you are free to forget all your credentials once and for all.
-
-Note: For compatibility reasons, we use eTLD+1s instead of origins.
+Note: For compatibility reasons, we use eTLD+1s as the origin of the website in question. For example, www.example.com and whatever.www1.example.com are considered to have the same origin (example.com).
 
 # Security Considerations
 
@@ -65,3 +64,7 @@ Platform authenticators without CTAP2 might support this feature in the future, 
 
 # Acronym
 "nya" stands for "not yet another"
+
+# Todo
+- PWA
+- native support for other platforms
